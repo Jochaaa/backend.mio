@@ -1,0 +1,31 @@
+<?php include 'templates/diseño/header.phtml'; ?>
+
+<div class="container mt-5">
+    <h1 class="mb-4"><?php echo isset($titulo) ? htmlspecialchars($titulo) : 'Autores'; ?></h1>
+
+    <?php if (isset($autores) && is_array($autores) && count($autores) > 0): ?>
+        <ul class="list-group">
+            <?php foreach ($autores as $autor): ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong><?php echo htmlspecialchars($autor->nombre_autor); ?></strong>
+                        <small class="text-muted d-block"><?php echo htmlspecialchars($autor->pais_autor); ?></small>
+                    </div>
+                    <a href="<?php echo BASE_URL . 'autor/' . $autor->ID_autor . '/albumes'; ?>" class="btn btn-sm btn-outline-primary">
+                        Ver Álbumes
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <div class="alert alert-warning" role="alert">
+            No hay autores disponibles para mostrar.
+        </div>
+    <?php endif; ?>
+
+     <div class="mt-4">
+        <a href="<?php echo BASE_URL; ?>albumes" class="btn btn-secondary">Volver al listado de álbumes</a>
+    </div>
+</div>
+
+<?php include 'templates/diseño/footer.phtml'; ?>

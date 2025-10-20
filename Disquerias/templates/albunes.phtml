@@ -1,0 +1,35 @@
+<?php 
+include 'templates/diseño/header.phtml'; 
+?>
+
+<div class="container mt-5">
+    <h1 class="mb-4"><?php echo $titulo; ?></h1>
+    
+    <?php if (isset($albumes) && is_array($albumes) && count($albumes) > 0): ?>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php foreach ($albumes as $album): ?>
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo htmlspecialchars($album->nombre_album); ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlspecialchars($album->nombre_autor); ?></h6>
+                    <p class="card-text">
+                        <strong>Lanzamiento:</strong> <?php echo date('Y', strtotime($album->lanzamiento_album)); ?><br>
+                        <strong>Género:</strong> <?php echo htmlspecialchars($album->genero_album); ?>
+                    </p>
+                    <a href="<?php echo BASE_URL; ?>/album/<?php echo $album->ID_album; ?>" class="btn btn-info btn-sm">Ver Detalle</a>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php else: ?>
+    <div class="alert alert-warning" role="alert">
+        No hay álbumes disponibles para mostrar.
+    </div>
+    <?php endif; ?>
+</div>
+
+<?php 
+include 'templates/diseño/footer.phtml'; 
+?>
