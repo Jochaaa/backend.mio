@@ -1,0 +1,63 @@
+<?php 
+include 'templates/diseño/header.phtml'; 
+?>
+
+<div class="container mt-4">
+    <h2 class="mb-4"><?php echo $titulo; ?></h2>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <a href="<?php echo BASE_URL; ?>/admin/album/add" class="btn btn-success">
+            <i class="fa fa-plus"></i> Agregar Nuevo Álbum
+        </a>
+        <a href="<?php echo BASE_URL; ?>/admin/autores" class="btn btn-info">
+            Administrar Autores
+        </a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Álbum</th>
+                <th>Autor</th>
+                <th>Lanzamiento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if (isset($albumes) && is_array($albumes)):
+                foreach ($albumes as $album): 
+            ?>
+                <tr>
+                    <td><?php echo $album->ID_album; ?></td>
+                    <td><?php echo htmlspecialchars($album->nombre_album); ?></td>
+                    <td><?php echo htmlspecialchars($album->nombre_autor); ?></td>
+                    <td><?php echo htmlspecialchars($album->lanzamiento_album); ?></td>
+                    <td>
+                        <a href="<?php echo BASE_URL; ?>/admin/album/edit/<?php echo $album->ID_album; ?>" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        
+                        <form action="<?php echo BASE_URL; ?>/admin/album/delete/<?php echo $album->ID_album; ?>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de eliminar el álbum <?php echo htmlspecialchars($album->nombre_album); ?>?');">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php 
+                endforeach;
+            else:
+            ?>
+            <tr>
+                <td colspan="5" class="text-center">No hay álbumes registrados en la base de datos.</td>
+            </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
+<?php 
+include 'templates/diseño/footer.phtml'; 
+?>
