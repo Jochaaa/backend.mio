@@ -1,0 +1,38 @@
+<?php 
+// Ruta ajustada para tu carpeta de diseño
+// Asume que tu header está en /diseño/
+include 'templates/diseño/header.phtml'; 
+?>
+
+<div class="container mt-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="display-1 text-danger">404</h1>
+            <h2 class="mb-4"><?php echo $titulo ?? 'Página No Encontrada'; ?></h2>
+            <p class="lead">
+                Lo sentimos, el recurso que estás buscando (álbum, autor o página) no existe.
+                Verifica la dirección URL e inténtalo de nuevo.
+            </p>
+            <hr>
+            <a href="<?php echo BASE_URL; ?>" class="btn btn-primary btn-lg mt-3">
+                Volver a la Página Principal
+            </a>
+            
+            <?php 
+            // Si quieres mostrar un botón de Login si la sesión no está activa
+            if (!isset($_SESSION['IS_LOGGED'])): 
+            ?>
+                <a href="<?php echo BASE_URL; ?>/login" class="btn btn-outline-secondary btn-lg mt-3">
+                    Acceso Administrador
+                </a>
+            <?php endif; ?>
+
+        </div>
+    </div>
+</div>
+
+<?php 
+// Ruta ajustada para tu carpeta de diseño
+// Asume que tu footer está en /diseño/
+include 'templates/diseño/footer.phtml'; 
+?>

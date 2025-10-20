@@ -1,0 +1,73 @@
+<?php 
+// Asume que la plantilla base para el diseño sigue estando en 'diseño/'
+include 'templates/diseño/header.phtml'; 
+?>
+
+<div class="container mt-4">
+    <h2 class="mb-4"><?php echo $titulo; ?></h2>
+    
+    <div class="d-flex justify-content-between mb-3">
+        <a href="<?php echo BASE_URL; ?>/admin/autor/add" class="btn btn-success">
+            <i class="fa fa-plus"></i> Agregar Nuevo Autor
+        </a>
+        <a href="<?php echo BASE_URL; ?>/admin/albumes" class="btn btn-info">
+            Administrar Álbumes
+        </a>
+    </div>
+
+    <?php 
+    // Manejo de errores de Clave Foránea (si el AutoresController lo detecta)
+    if (isset($_GET['error']) && $_GET['error'] === 'clave_foranea'):
+    ?>
+        <div class="alert alert-danger" role="alert">
+            Error al eliminar: No puedes eliminar este Autor porque tiene Álbumes asociados. Borra primero los Álbumes de este Autor.
+        </div>
+    <?php endif; ?>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Autor</th>
+                <th>País de Origen</th>
+                <th>Cant. Álbumes</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if (isset($autores) && is_array($autores) && count($autores) > 0):
+                foreach ($autores as $autor): 
+            ?>
+                <tr>
+                    <td><?php echo $autor->ID_autor; ?></td>
+                    <td><?php echo htmlspecialchars($autor->nombre_autor); ?></td>
+                    <td><?php echo htmlspecialchars($autor->pais_autor); ?></td>
+                    <td><?php echo htmlspecialchars($autor->cant_albumes); ?></td>
+                    <td>
+                        <a href="<?php echo BASE_URL; ?>/admin/autor/edit/<?php echo $autor->ID_autor; ?>" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        
+                        <form action="<?php echo BASE_URL; ?>/admin/autor/delete/<?php echo $autor->ID_autor; ?>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de eliminar al Autor: <?php echo htmlspecialchars($autor->nombre_autor); ?>? (Puede fallar si tiene álbumes asociados)');">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php 
+                endforeach;
+            else:
+            ?>
+            <tr>
+                <td colspan="5" class="text-center">No hay autores registrados en la base de datos.</td>
+            </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
+<?php 
+include 'templates/diseño/footer.phtml'; 
+?>
